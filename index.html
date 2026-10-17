@@ -14,7 +14,2647 @@
       --nav-sub: #232f3e;
       --orange: #febd69;
       --yellow: #ffd814;
+      --link: #007185;<!-- Output: html -->
+<!-- Filename: 雑誌ストア_BookShelf_完全版 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#131921">
+  <title>BookShelf | デジタル雑誌ストア</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --nav: #131921;
+      --nav-sub: #232f3e;
+      --orange: #febd69;
+      --yellow: #ffd814;
       --link: #007185;
+      --text: #0f1111;
+      --muted: #565959;
+      --border: #d5d9d9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--text);
+      font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      line-height: 1.65;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button,
+    select,
+    summary {
+      cursor: pointer;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.35;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    :focus-visible {
+      outline: 3px solid #008296;
+      outline-offset: 4px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    /*
+     * 全画像を横2：縦3で統一。
+     * height属性による縦伸びを防ぎ、画像全体を表示します。
+     */
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2 / 3;
+      object-fit: contain;
+      background: #f3f2ed;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      padding: 14px 30px;
+      background: var(--nav);
+      color: #fff;
+    }
+
+    .logo {
+      flex-shrink: 0;
+      color: #fff;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.2;
+    }
+
+    .logo:hover {
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--orange);
+    }
+
+    .logo small {
+      display: block;
+      margin-top: 5px;
+      color: #cdd5dc;
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 2px;
+    }
+
+    .search-form {
+      display: flex;
+      flex: 1;
+      min-width: 100px;
+      height: 44px;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .search-form:focus-within {
+      outline: 3px solid var(--orange);
+    }
+
+    .search-label {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      border-right: 1px solid var(--border);
+      border-radius: 6px 0 0 6px;
+      background: #e6e6e6;
+      color: #444;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .search-input {
+      width: 100%;
+      min-width: 0;
+      padding: 10px 13px;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .search-button {
+      display: grid;
+      width: 51px;
+      flex-shrink: 0;
+      place-items: center;
+      border: 0;
+      border-radius: 0 6px 6px 0;
+      background: var(--orange);
+      font-size: 24px;
+    }
+
+    .header-caption {
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .header-caption strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .subnav,
+    .store-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      overflow-x: auto;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .subnav {
+      padding: 8px 30px;
+      background: var(--nav-sub);
+      color: #fff;
+    }
+
+    .subnav a {
+      color: inherit;
+    }
+
+    .store-nav {
+      padding: 13px 30px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .store-name {
+      margin-right: 10px;
+      color: var(--text);
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .category-tab {
+      padding: 4px 0;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      background: none;
+      color: var(--muted);
+    }
+
+    .category-tab[aria-pressed="true"] {
+      border-bottom-color: #e77600;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .page-shell {
+      max-width: 1540px;
+      margin: auto;
+      padding: 24px 30px 60px;
+    }
+
+    .breadcrumb {
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .store-layout {
+      display: grid;
+      grid-template-columns: 192px minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    .sidebar {
+      padding-right: 22px;
+      border-right: 1px solid #e7e7e7;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 12px;
+      font-size: 14px;
+    }
+
+    .sidebar ul {
+      margin: 0 0 30px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sidebar li {
+      margin: 5px 0;
+      font-size: 13px;
+    }
+
+    .sidebar button {
+      padding: 4px 0;
+      border: 0;
+      background: none;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .sidebar button[aria-pressed="true"],
+    .sidebar button:hover {
+      color: #c45500;
+    }
+
+    .sidebar button[aria-pressed="true"] {
+      font-weight: 700;
+    }
+
+    .sidebar-note {
+      padding: 15px;
+      border-radius: 6px;
+      background: #f3f7f7;
+      font-size: 12px;
+    }
+
+    .sidebar-note strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-note p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 24px;
+      align-items: center;
+      min-height: 274px;
+      padding: 34px 40px;
+      overflow: hidden;
+      background: #e8f0ed;
+    }
+
+    .hero-eyebrow {
+      color: #3e6658;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+    }
+
+    .hero h1 {
+      margin: 10px 0;
+      font-size: clamp(25px, 3.1vw, 42px);
+      line-height: 1.35;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      margin: 0 0 18px;
+      color: #465d52;
+      font-size: 13px;
+    }
+
+    .hero-link {
+      display: inline-block;
+      padding: 8px 17px;
+      border: 1px solid #96b3a7;
+      border-radius: 4px;
+      color: #234a3b;
+      font-size: 12px;
+    }
+
+    .hero-books {
+      position: relative;
+      height: 210px;
+    }
+
+    .hero-books img {
+      position: absolute;
+      width: 120px;
+      height: auto;
+      aspect-ratio: 2 / 3;
+      border-radius: 2px;
+      box-shadow: 0 12px 20px #20382c33;
+    }
+
+    .hero-books img:nth-child(1) {
+      top: 16px;
+      left: 0;
+      transform: rotate(-12deg);
+    }
+
+    .hero-books img:nth-child(2) {
+      top: 0;
+      left: 78px;
+      z-index: 1;
+    }
+
+    .hero-books img:nth-child(3) {
+      top: 23px;
+      left: 150px;
+      transform: rotate(12deg);
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 14px 0 30px;
+      border: 1px solid #e4e7e7;
+      border-radius: 4px;
+    }
+
+    .benefits div {
+      padding: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .benefits div + div {
+      border-left: 1px solid #e4e7e7;
+    }
+
+    .benefits strong {
+      color: var(--text);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 24px 0 18px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 23px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-header small {
+      flex-shrink: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .series-grid,
+    .issue-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px;
+      align-items: start;
+    }
+
+    .series-card {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      text-align: left;
+    }
+
+    .cover-area {
+      display: block;
+      padding: 18px;
+      border: 1px solid #f0f0ee;
+      border-radius: 5px;
+      background: #f6f6f4;
+    }
+
+    .cover-area img {
+      border-radius: 2px;
+      box-shadow: 3px 5px 10px #0002;
+      transition: transform 0.2s;
+    }
+
+    .series-card:hover img,
+    .issue-cover:hover img {
+      transform: translateY(-4px);
+    }
+
+    .series-card[aria-pressed="true"] .cover-area {
+      outline: 2px solid #e77600;
+      outline-offset: 2px;
+      background: #fff7e9;
+    }
+
+    .series-name {
+      display: block;
+      margin-top: 12px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .series-description {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .series-count {
+      display: block;
+      margin-top: 6px;
+      color: var(--link);
+      font-size: 12px;
+    }
+
+    .issue-panel {
+      margin-top: 30px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      scroll-margin-top: 20px;
+    }
+
+    .issue-panel summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 18px 22px;
+      border-radius: 6px;
+      background: #f7fafa;
+      list-style: none;
+    }
+
+    .issue-panel summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .issue-panel summary::after {
+      content: "＋";
+      flex-shrink: 0;
+      color: var(--muted);
+      font-size: 22px;
+    }
+
+    .issue-panel[open] summary::after {
+      content: "−";
+    }
+
+    .panel-title {
+      display: block;
+      font-size: 20px;
+    }
+
+    .panel-description {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: pre-line;
+    }
+
+    .panel-tags,
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 15px 22px 0;
+    }
+
+    .tag {
+      padding: 3px 9px;
+      border-radius: 4px;
+      background: #eef2f2;
+      color: #40515a;
+      font-size: 11px;
+    }
+
+    .issue-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 22px;
+      font-size: 12px;
+    }
+
+    .sort-select {
+      max-width: 100%;
+      padding: 5px 9px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #f0f2f2;
+      font-size: 12px;
+    }
+
+    .issue-grid {
+      padding: 8px 22px 26px;
+    }
+
+    .issue-card {
+      min-width: 0;
+    }
+
+    .issue-cover {
+      display: block;
+    }
+
+    .issue-card h3 {
+      margin: 12px 0 4px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .issue-theme,
+    .issue-date,
+    .format-label {
+      margin: 4px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .format-label {
+      color: var(--link);
+    }
+
+    .price {
+      margin: 8px 0 0;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .price small {
+      margin-right: 2px;
+      font-size: 12px;
+      vertical-align: 5px;
+    }
+
+    .tax-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .editor-note {
+      margin-top: 30px;
+      padding: 22px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .editor-note h2 {
+      margin: 0 0 7px;
+      font-size: 18px;
+    }
+
+    .editor-note p,
+    .empty-message {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .empty-message {
+      padding: 32px 0;
+    }
+
+    .product-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 330px) minmax(0, 1fr) 260px;
+      gap: 34px;
+      align-items: start;
+      margin-top: 25px;
+    }
+
+    .product-cover {
+      min-width: 0;
+      padding: 10px 18px 20px;
+    }
+
+    .product-cover img {
+      box-shadow: 4px 9px 24px #0003;
+    }
+
+    .cover-caption {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .product-title {
+      margin: 0 0 8px;
+      font-size: 27px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .product-series-link {
+      font-size: 13px;
+    }
+
+    .product-tags {
+      margin-inline: 0;
+    }
+
+    .product-rule {
+      margin: 20px 0;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .format-box {
+      display: inline-block;
+      min-width: 140px;
+      padding: 10px 15px;
+      border: 2px solid #e77600;
+      border-radius: 4px;
+      background: #fff8ee;
+      font-size: 13px;
+    }
+
+    .format-box strong {
+      display: block;
+    }
+
+    .product-description {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .product-description h2 {
+      margin: 24px 0 9px;
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .product-description ul {
+      padding-left: 20px;
+    }
+
+    .product-description li {
+      margin-bottom: 7px;
+    }
+
+    .product-meta {
+      display: grid;
+      grid-template-columns: 100px minmax(0, 1fr);
+      gap: 9px 16px;
+      font-size: 13px;
+    }
+
+    .product-meta dt {
+      color: var(--muted);
+    }
+
+    .product-meta dd {
+      margin: 0;
+    }
+
+    .notice {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-left: 3px solid #e5aa43;
+      background: #fff8e9;
+      color: #67532d;
+      font-size: 12px;
+    }
+
+    .purchase-box {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .purchase-box .price {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    .availability {
+      margin: 18px 0 12px;
+      color: #007600;
+      font-size: 15px;
+    }
+
+    .button {
+      display: inline-flex;
+      width: 100%;
+      min-height: 40px;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 16px;
+      border: 1px solid #fcd200;
+      border-radius: 100px;
+      background: var(--yellow);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .button:hover {
+      background: #f7ca00;
+    }
+
+    .button.secondary {
+      margin-top: 12px;
+      border-color: var(--border);
+      background: #fff;
+      box-shadow: 0 2px 4px #0001;
+    }
+
+    .button.secondary:hover {
+      background: #f7fafa;
+    }
+
+    .purchase-note {
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .related-section {
+      margin-top: 50px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .related-section .issue-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      max-width: 1050px;
+      padding-inline: 0;
+    }
+
+    .back-to-top {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      background: #37475a;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .site-footer {
+      padding: 30px 24px;
+      background: var(--nav-sub);
+      color: #d5d9d9;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    .footer-brand {
+      margin-bottom: 12px;
+      color: #fff;
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    dialog {
+      width: min(1100px, calc(100% - 24px));
+      max-height: 95vh;
+      max-height: 95dvh;
+      padding: 0;
+      overflow: auto;
+      border: 0;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--text);
+      box-shadow: 0 20px 80px #0005;
+    }
+
+    dialog::backdrop {
+      background: #0f1726d9;
+    }
+
+    .dialog-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .dialog-header h2 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .icon-button {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      font-size: 20px;
+    }
+
+    .reader-stage {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 18px;
+      background: #e6e8e8;
+      touch-action: pan-y pinch-zoom;
+    }
+
+    .reader-stage img {
+      width: min(100%, 440px, 41.333vh);
+      width: min(100%, 440px, 41.333dvh);
+      height: auto;
+      max-height: none;
+      aspect-ratio: 2 / 3;
+      box-shadow: 0 5px 14px #0002;
+    }
+
+    .reader-stage.is-expanded img {
+      width: min(100%, 960px);
+    }
+
+    .reader-caption {
+      margin: 0;
+      padding: 10px 20px 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .reader-caption.is-pr {
+      color: #8b4610;
+      font-weight: 700;
+    }
+
+    .reader-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 12px;
+    }
+
+    .reader-count {
+      min-width: 66px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .zoom-button {
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .reader-thumbnails {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 7px;
+      max-width: 850px;
+      margin: auto;
+      padding: 0 18px 18px;
+    }
+
+    .thumbnail {
+      display: block;
+      min-width: 0;
+      padding: 3px;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      background: none;
+    }
+
+    .thumbnail[aria-current="page"] {
+      border-color: #e77600;
+      background: #fff6e6;
+    }
+
+    .checkout-dialog {
+      width: min(440px, calc(100% - 24px));
+    }
+
+    .checkout-body {
+      padding: 25px;
+    }
+
+    .checkout-body p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (min-width: 1300px) {
+      .series-grid {
+        gap: 32px;
+      }
+
+      .cover-area {
+        padding: 22px 30px;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .header-caption {
+        display: none;
+      }
+
+      .store-layout {
+        grid-template-columns: 155px minmax(0, 1fr);
+        gap: 20px;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr) 210px;
+        padding: 28px;
+      }
+
+      .hero-books {
+        transform: scale(0.8);
+        transform-origin: left center;
+      }
+
+      .cover-area {
+        padding: 12px;
+      }
+
+      .series-grid,
+      .issue-grid {
+        gap: 16px;
+      }
+
+      .product-layout {
+        grid-template-columns: 230px minmax(0, 1fr);
+        gap: 24px;
+      }
+
+      .purchase-box {
+        grid-column: 2;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-wrap: wrap;
+        gap: 13px;
+        padding: 15px 16px;
+      }
+
+      .logo {
+        font-size: 24px;
+      }
+
+      .logo small {
+        display: none;
+      }
+
+      .search-form {
+        flex-basis: 100%;
+        order: 2;
+      }
+
+      .search-label {
+        padding-inline: 10px;
+      }
+
+      .subnav,
+      .store-nav {
+        gap: 20px;
+        padding-inline: 16px;
+      }
+
+      .store-name {
+        font-size: 17px;
+      }
+
+      .page-shell {
+        padding: 18px 16px 40px;
+      }
+
+      .store-layout {
+        display: block;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr) 100px;
+        gap: 8px;
+        min-height: 220px;
+        padding: 22px;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .hero p {
+        font-size: 11px;
+      }
+
+      .hero-books {
+        height: 140px;
+        transform: scale(0.55);
+      }
+
+      .hero-books img:nth-child(1) {
+        left: -50px;
+      }
+
+      .hero-books img:nth-child(2) {
+        left: 20px;
+      }
+
+      .hero-books img:nth-child(3) {
+        left: 90px;
+      }
+
+      .benefits div {
+        padding: 10px 5px;
+        font-size: 10px;
+      }
+
+      .benefits strong {
+        display: block;
+      }
+
+      .section-header h2 {
+        font-size: 20px;
+      }
+
+      .series-grid,
+      .issue-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px 16px;
+      }
+
+      .cover-area {
+        padding: 16px 20px;
+      }
+
+      .series-name {
+        font-size: 17px;
+      }
+
+      .issue-panel summary {
+        padding: 15px;
+      }
+
+      .issue-grid {
+        padding: 4px 15px 20px;
+      }
+
+      .issue-toolbar {
+        flex-wrap: wrap;
+        padding-inline: 15px;
+      }
+
+      .panel-title {
+        font-size: 18px;
+      }
+
+      .product-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .product-cover {
+        width: min(76%, 300px);
+        margin: auto;
+      }
+
+      .product-info,
+      .purchase-box {
+        width: 100%;
+      }
+
+      .product-title {
+        font-size: 24px;
+      }
+
+      .related-section .issue-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .reader-thumbnails {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 5px;
+        max-width: 390px;
+      }
+
+      .reader-stage {
+        padding: 10px;
+      }
+
+      .reader-stage img {
+        width: min(100%, 440px, 36vh);
+        width: min(100%, 440px, 36dvh);
+      }
+
+      .reader-stage.is-expanded img {
+        width: 100%;
+      }
+
+      .dialog-header h2 {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-books {
+        display: none;
+      }
+
+      .cover-area {
+        padding: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <a href="#" class="logo" aria-label="BookShelf ホーム">
+        book<span>shelf</span>
+        <small>DIGITAL MAGAZINE STORE</small>
+      </a>
+
+      <form id="searchForm" class="search-form" role="search">
+        <span class="search-label">雑誌</span>
+        <input
+          id="searchInput"
+          class="search-input"
+          type="search"
+          aria-label="雑誌を検索"
+          placeholder="シリーズ・特集・ジャンルで検索"
+        >
+        <button class="search-button" type="submit" aria-label="検索">⌕</button>
+      </form>
+
+      <div class="header-caption">
+        読みたい一冊を見つけよう
+        <strong>デジタル雑誌専門ストア</strong>
+      </div>
+    </div>
+
+    <nav class="subnav" aria-label="ストアナビゲーション">
+      <a href="#">雑誌ストア ホーム</a>
+      <a href="#catalog">シリーズから探す</a>
+      <a href="#guide">サンプルの読み方</a>
+      <span>すべての雑誌を画像で試し読み</span>
+    </nav>
+
+    <nav id="categoryNav" class="store-nav" aria-label="ジャンル"></nav>
+  </header>
+
+  <main class="page-shell">
+    <section id="homeView" aria-label="雑誌ストア">
+      <div class="breadcrumb">ホーム › デジタル雑誌 › シリーズ一覧</div>
+
+      <div class="store-layout">
+        <aside class="sidebar" aria-label="絞り込み">
+          <h2>カテゴリー</h2>
+          <ul id="categoryList"></ul>
+
+          <h2>シリーズから探す</h2>
+          <ul id="seriesList"></ul>
+
+          <div class="sidebar-note">
+            <strong>購入前に、試し読み。</strong>
+            <p>
+              各号の販売ページから、
+              <span data-sample-count></span>枚の画像サンプルをご覧いただけます。
+            </p>
+          </div>
+        </aside>
+
+        <div>
+          <section class="hero" aria-label="ストア紹介">
+            <div>
+              <div class="hero-eyebrow">DISCOVER YOUR NEXT READ</div>
+              <h1>好きな雑誌と、<br>新しい毎日。</h1>
+              <p>
+                クルマ、旅、デザイン、食。<br>
+                気になる世界を、一冊から。
+              </p>
+              <a class="hero-link" href="#series/ignition-x">
+                IGNITION Xを見る →
+              </a>
+            </div>
+
+            <div id="heroBooks" class="hero-books" aria-hidden="true"></div>
+          </section>
+
+          <div class="benefits">
+            <div><strong>すべてデジタル版</strong> 手軽に選べる</div>
+            <div>
+              <strong><span data-sample-count></span>枚のサンプル</strong>
+              購入前にチェック
+            </div>
+            <div><strong>シリーズ別に掲載</strong> バックナンバーも</div>
+          </div>
+
+          <section id="catalog" aria-labelledby="catalogTitle">
+            <div class="section-header">
+              <h2 id="catalogTitle">シリーズから探す</h2>
+              <small id="resultCount" role="status"></small>
+            </div>
+
+            <div id="seriesGrid" class="series-grid"></div>
+
+            <p id="emptyMessage" class="empty-message" hidden>
+              条件に一致する雑誌はありません。
+              別のキーワードやカテゴリーをお試しください。
+            </p>
+
+            <details id="issuePanel" class="issue-panel" hidden>
+              <summary>
+                <span>
+                  <strong id="panelTitle" class="panel-title"></strong>
+                  <span id="panelDescription" class="panel-description"></span>
+                </span>
+              </summary>
+
+              <div id="panelTags" class="panel-tags"></div>
+
+              <div class="issue-toolbar">
+                <span id="issueCount"></span>
+                <label>
+                  並び替え：
+                  <select id="sortSelect" class="sort-select">
+                    <option value="newest">発売日の新しい順</option>
+                    <option value="oldest">発売日の古い順</option>
+                    <option value="price-low">価格の安い順</option>
+                    <option value="price-high">価格の高い順</option>
+                  </select>
+                </label>
+              </div>
+
+              <div id="issueGrid" class="issue-grid"></div>
+            </details>
+          </section>
+
+          <section id="guide" class="editor-note">
+            <h2>購入前に、中身をチェック</h2>
+            <p>
+              シリーズを選ぶと各号の表紙が表示されます。
+              気になる号を開いて「サンプルを見る」を押すと、
+              <span data-sample-count></span>枚の本文画像を試し読みできます。
+              表紙はサンプル枚数に含みません。
+              左右キーやスワイプでページ送り、
+              「拡大表示」で読みやすいサイズに切り替えられます。
+            </p>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="detailView" aria-label="雑誌販売ページ" hidden>
+      <div class="breadcrumb">
+        <a href="#">雑誌ストア</a> ›
+        <a id="detailSeriesLink" href="#"></a> ›
+        <span id="detailIssueLabel"></span>
+      </div>
+
+      <div id="productContent"></div>
+
+      <section id="relatedSection" class="related-section">
+        <div class="section-header">
+          <h2>同じシリーズの雑誌</h2>
+        </div>
+        <div id="relatedGrid" class="issue-grid"></div>
+      </section>
+    </section>
+  </main>
+
+  <button id="backToTop" class="back-to-top" type="button">トップへ戻る</button>
+
+  <footer class="site-footer">
+    <div class="footer-brand">bookshelf</div>
+    <p>デジタル雑誌で、好きな世界をもっと身近に。</p>
+    <p>
+      デモストアです。画像未登録時は仮画像を表示します。決済や注文は発生しません。<br>
+      IGNITION X以外の商品情報はデモです。<br>
+      Amazonとは関係のない独立したデザインサンプルです。
+    </p>
+    <small>© BookShelf</small>
+  </footer>
+
+  <dialog id="sampleDialog" aria-labelledby="sampleTitle">
+    <div class="dialog-header">
+      <h2 id="sampleTitle">サンプルを見る</h2>
+      <button
+        class="icon-button"
+        type="button"
+        data-close="sampleDialog"
+        aria-label="サンプルを閉じる"
+      >×</button>
+    </div>
+
+    <div id="readerStage" class="reader-stage">
+      <img id="sampleImage" alt="" width="600" height="900">
+    </div>
+
+    <p id="readerCaption" class="reader-caption"></p>
+
+    <div class="reader-controls">
+      <button
+        id="previousPage"
+        class="icon-button"
+        type="button"
+        aria-label="前のページ"
+      >←</button>
+
+      <span id="pageCount" class="reader-count" aria-live="polite"></span>
+
+      <button
+        id="nextPage"
+        class="icon-button"
+        type="button"
+        aria-label="次のページ"
+      >→</button>
+
+      <button
+        id="zoomButton"
+        class="zoom-button"
+        type="button"
+        aria-pressed="false"
+        aria-controls="readerStage"
+      >拡大表示</button>
+    </div>
+
+    <div
+      id="thumbnails"
+      class="reader-thumbnails"
+      aria-label="サンプルのページ選択"
+    ></div>
+  </dialog>
+
+  <dialog
+    id="checkoutDialog"
+    class="checkout-dialog"
+    aria-labelledby="checkoutTitle"
+  >
+    <div class="dialog-header">
+      <h2 id="checkoutTitle">購入について</h2>
+      <button
+        class="icon-button"
+        type="button"
+        data-close="checkoutDialog"
+        aria-label="購入案内を閉じる"
+      >×</button>
+    </div>
+
+    <div class="checkout-body">
+      <strong id="checkoutItem"></strong>
+      <p id="checkoutPrice"></p>
+      <p>
+        このサイトはデモです。決済や注文は発生しません。
+        本番公開時には、各号に設定した決済ページへ移動します。
+      </p>
+      <button class="button" type="button" data-close="checkoutDialog">
+        雑誌に戻る
+      </button>
+    </div>
+  </dialog>
+
+  <script>
+    /*
+     * 保存方法
+     * このHTML全体をindex.htmlとして保存してください。
+     *
+     * IGNITION Xの画像はindex.htmlと同じフォルダに置きます。
+     *
+     * 5月号
+     * ignition-x-2026-05-cover.webp
+     * ignition-x-2026-05-sample-01.webp ～ sample-10.webp
+     *
+     * 4月号
+     * ignition-x-2026-04-cover.webp
+     * ignition-x-2026-04-sample-01.webp ～ sample-10.webp
+     *
+     * 合計：表紙2枚＋本文サンプル20枚＝22枚。
+     * 表紙バリエーションを別商品として重複登録していません。
+     *
+     * 添付資料ではサンプル8枚でしたが、今回の指定を優先して10枚に変更。
+     * グラビアを4枚掲載する構成で、追加2枚を表示順5・6に設けています。
+     * 追加2枚の具体的な写真内容は資料にないため未確定です。
+     * samplesのlabel・src・順番を完成素材に合わせて確認してください。
+     *
+     * 発売日と総ページ数は添付資料の登録案です。
+     * 確定後にmetadataProvisionalをfalseに変更してください。
+     *
+     * 画像は横2：縦3。2048×3072pxなどを推奨。
+     * WebP、sRGBで用意し、配信用は幅1200〜1600px程度を目安に調整。
+     * ファイル未配置時は、画像未登録を示す仮画像を表示します。
+     *
+     * checkoutUrlにHTTPS決済ページURLを設定できます。
+     * 購入確認、閲覧権限、購入履歴、有料本文配信は別途実装が必要です。
+     * 有料の全ページを公開HTMLや公開サンプルに含めないでください。
+     */
+
+    const SAMPLE_COUNT = 10;
+
+    const byId = (id) => document.getElementById(id);
+
+    function createSamples(issueId, definitions) {
+      return Array.from({ length: SAMPLE_COUNT }, (_, index) => {
+        const definition = definitions[index] || {};
+        const order = String(index + 1).padStart(2, "0");
+
+        return {
+          src: `${issueId}-sample-${order}.webp`,
+          label: definition.label || `サンプル ${index + 1}`,
+          pr: Boolean(definition.pr)
+        };
+      });
+    }
+
+    const catalog = [
+      {
+        id: "ignition-x",
+        name: "IGNITION X",
+        reading: "イグニッション・エックス",
+        category: "クルマ・バイク",
+        tags: ["エンタメ・グラビア", "ファッション", "ホビー"],
+        frequency: "月刊",
+        english: "CAR / BIKE / ENTERTAINMENT",
+        description: "クルマも、遊びも、好奇心全開。",
+        cardDescription:
+          "新車予想から中古車選び、グラビア、ホビー、街角ファッションまで。クルマを入口に、大人の好奇心を刺激する月刊誌。",
+        detailDescription: [
+          "クルマも、遊びも、好奇心全開。",
+          "IGNITION X は、新車情報・次期モデル予想と中古車選びを中心に、撮り下ろしグラビア、サーキットやホビーの現場、街角ファッションを届ける月刊誌です。",
+          "気になる一台を探す楽しさも、新しい趣味と出会う高揚感も。写真と読み物で、毎日の楽しみを広げます。"
+        ],
+        color: "#cf3d30",
+        background: "#e9e8e3",
+        keywords:
+          "IGNITION X イグニッションエックス イグニッション・エックス クルマ 自動車 バイク 月刊 グラビア ファッション ホビー",
+        issues: [
+          {
+            id: "ignition-x-2026-05",
+            title: "IGNITION X 2026年5月号",
+            label: "2026年5月号",
+            number: "VOL.02",
+            theme: "大きく遊べ。自分らしく楽しめ。",
+            mainFeature: "フルサイズ SUV、日本上陸！？ 最新リーク情報",
+            shortDescription:
+              "フルサイズ SUV の日本導入予想、まだまだ乗れるプリウス、会社員×休日アイドルの素顔。クルマと趣味を楽しむ5月号。",
+            date: "2026-05-31",
+            pages: 80,
+            metadataProvisional: true,
+            price: 980,
+            cover: "ignition-x-2026-05-cover.webp",
+            coverAlt:
+              "IGNITION X 2026年5月号の表紙。特集はフルサイズ SUV の日本導入予想。",
+            description: [
+              "大きく遊べ。自分らしく楽しめ。",
+              "巻頭は「フルサイズ SUV、日本上陸！？」。圧倒的な存在感を放つ大型 SUV を取り上げ、日本導入の可能性、サイズ、走り、価格を編集部独自の視点で予想します。",
+              "中古車特集は「まだまだ乗れるプリウス」。30系後期型を中心に、整備履歴や保証、実車の状態など、購入前に確認したいポイントを紹介。",
+              "新人グラドル・小日向まなの撮り下ろしは、「昼は会社員、休日アイドルちゃん」。休日の私服から水着まで、親しみやすい表情を届けます。",
+              "さらに、NEXARM AIRSOFT とのタイアップによるコスプレ＆エアガン特集、スポーツブラ風トップスを街着に取り入れるファッションスナップも掲載。クルマからホビーまで、好奇心が広がる一冊です。"
+            ],
+            contents: [
+              "新車予想：フルサイズ SUV、日本上陸！？ 最新リーク情報",
+              "中古車：まだまだ乗れるプリウス",
+              "グラビア：小日向まな「昼は会社員、休日アイドルちゃん」",
+              "タイアップ：NEXARM AIRSOFT × 神崎れい【PR】",
+              "街角スナップ：スポーツブラ風ファッション、街ではどう着る？"
+            ],
+            editorialNotice:
+              "新車情報・日本導入の可能性は編集部独自の予想を含み、メーカーによる正式発表ではありません。",
+            keywords:
+              "2026年5月号 フルサイズ SUV 新車予想 プリウス 30系プリウス 中古車 ハイブリッド 小日向まな 神崎れい グラビア エアガン NEXARM AIRSOFT コスプレ スポーツミックス 街角スナップ",
+            samples: createSamples("ignition-x-2026-05", [
+              { label: "新車予想｜フルサイズ SUV 紹介ページ" },
+              { label: "中古車｜30系プリウス紹介ページ" },
+              { label: "グラビア｜小日向まな・窓辺の私服カット" },
+              { label: "グラビア｜小日向まな・水着の全身カット" },
+              { label: "グラビア｜小日向まな・追加カット1（画像内容要確認）" },
+              { label: "グラビア｜小日向まな・追加カット2（画像内容要確認）" },
+              {
+                label: "NEXARM AIRSOFT × 神崎れい｜大型ワンショット",
+                pr: true
+              },
+              {
+                label: "NEXARM AIRSOFT × 神崎れい｜異なる3カット",
+                pr: true
+              },
+              { label: "街角スナップ｜成瀬ひなた・ブラックデニム" },
+              { label: "街角スナップ｜宮原さや・アイボリーの羽織り" }
+            ]),
+            checkoutUrl: ""
+          },
+          {
+            id: "ignition-x-2026-04",
+            title: "IGNITION X 2026年4月号［創刊号］",
+            label: "2026年4月号［創刊号］",
+            number: "VOL.01",
+            theme: "クルマも、彼女も、次の主役。",
+            mainFeature: "トヨタ ハチロク、ついにモデルチェンジくるか！？",
+            shortDescription:
+              "次のハチロクを大胆予想。人気中古車、朝比奈ゆのの撮り下ろし、岡山のレースクイーン、春の街角スナップを届ける創刊号。",
+            date: "2026-04-30",
+            pages: 80,
+            metadataProvisional: true,
+            price: 980,
+            cover: "ignition-x-2026-04-cover.webp",
+            coverAlt:
+              "IGNITION X 2026年4月号創刊号の表紙。特集はハチロクのモデルチェンジ予想。",
+            description: [
+              "クルマも、彼女も、次の主役。",
+              "IGNITION X 創刊号は、「トヨタ ハチロク、ついにモデルチェンジくるか！？」を巻頭特集。次期モデルに期待するデザインや走りを、予想ビジュアルとともに掘り下げます。",
+              "中古車ページでは、ショップスタッフが実車の魅力と購入前の確認ポイントをご案内。新人グラドル・朝比奈ゆのの撮り下ろしは、春の柔らかな光のなかで見せる自然な表情に注目です。",
+              "岡山国際サーキットのレースイベントからは、AZURE BLUE STARS のメンバーと活動風景を紹介。街角スナップでは、タイトニットと斜め掛けバッグを取り入れた春の着こなしをチェックします。",
+              "クルマの情報と、写真を見る楽しさを一冊に。IGNITION X のスタートを飾る創刊号です。"
+            ],
+            contents: [
+              "新車予想：トヨタ ハチロク、ついにモデルチェンジくるか！？",
+              "国内メーカーの注目新車",
+              "中古車：人気中古車と、購入前のチェックポイント",
+              "グラビア：朝比奈ゆの「はじまりの、まぶしさ。」",
+              "イベント：岡山国際サーキット・レースクイーン特集",
+              "街角スナップ：春のタイトニット＆パイスラッシュ発掘"
+            ],
+            editorialNotice:
+              "次期モデルに関する内容は編集部独自の予想を含み、メーカーによる正式発表ではありません。",
+            keywords:
+              "2026年4月号 創刊号 ハチロク 新車予想 スポーツカー 中古車 朝比奈ゆの グラビア 岡山国際サーキット レースクイーン AZURE BLUE STARS タイトニット 街角スナップ",
+            samples: createSamples("ignition-x-2026-04", [
+              { label: "新車予想｜ハチロク紹介ページ" },
+              { label: "中古車｜セレスティアと女性スタッフの紹介ページ" },
+              { label: "グラビア｜朝比奈ゆの・窓辺の立ち姿" },
+              { label: "グラビア｜朝比奈ゆの・水着の全身カット" },
+              { label: "グラビア｜朝比奈ゆの・追加カット1（画像内容要確認）" },
+              { label: "グラビア｜朝比奈ゆの・追加カット2（画像内容要確認）" },
+              { label: "レースクイーン｜集合写真と3名の紹介" },
+              { label: "レースクイーン｜残る3名と活動風景" },
+              { label: "街角スナップ｜高瀬杏奈・ラベンダーニット" },
+              { label: "街角スナップ｜森川莉子・アイボリーニット" }
+            ]),
+            checkoutUrl: ""
+          }
+        ]
+      },
+      {
+        id: "roam",
+        name: "ROAM",
+        category: "旅",
+        english: "TRAVEL & CULTURE",
+        description: "まだ知らない街の、その先へ。",
+        color: "#a9513a",
+        background: "#edddc6",
+        keywords: "旅行 カルチャー 街 海 散歩",
+        issues: [
+          {
+            id: "roam-08",
+            number: "VOL.08",
+            theme: "旅先で、暮らすように。",
+            date: "2026-04-05",
+            pages: 112,
+            price: 980
+          },
+          {
+            id: "roam-07",
+            number: "VOL.07",
+            theme: "週末、海の見える街へ。",
+            date: "2026-03-05",
+            pages: 100,
+            price: 980
+          },
+          {
+            id: "roam-06",
+            number: "VOL.06",
+            theme: "路地裏の小さな発見。",
+            date: "2026-02-05",
+            pages: 96,
+            price: 880
+          }
+        ]
+      },
+      {
+        id: "form",
+        name: "FORM",
+        category: "デザイン",
+        english: "ART & DESIGN",
+        description: "かたちの向こうにある、考え方。",
+        color: "#344d86",
+        background: "#e0e2ec",
+        keywords: "アート 建築 作品 色 素材",
+        issues: [
+          {
+            id: "form-21",
+            number: "VOL.21",
+            theme: "心を動かす、かたち。",
+            date: "2026-04-10",
+            pages: 120,
+            price: 1200
+          },
+          {
+            id: "form-20",
+            number: "VOL.20",
+            theme: "色と、遊ぶ。",
+            date: "2026-03-10",
+            pages: 108,
+            price: 1100
+          },
+          {
+            id: "form-19",
+            number: "VOL.19",
+            theme: "素材が語ること。",
+            date: "2026-02-10",
+            pages: 112,
+            price: 1100
+          }
+        ]
+      },
+      {
+        id: "table",
+        name: "TABLE",
+        category: "食",
+        english: "FOOD & PEOPLE",
+        description: "おいしい時間を、分かち合う。",
+        color: "#75603a",
+        background: "#eee5cc",
+        keywords: "料理 グルメ コーヒー 食卓 レシピ",
+        issues: [
+          {
+            id: "table-15",
+            number: "VOL.15",
+            theme: "食卓から、はじまる。",
+            date: "2026-04-15",
+            pages: 96,
+            price: 880
+          },
+          {
+            id: "table-14",
+            number: "VOL.14",
+            theme: "コーヒーと過ごす午後。",
+            date: "2026-03-15",
+            pages: 92,
+            price: 880
+          },
+          {
+            id: "table-13",
+            number: "VOL.13",
+            theme: "季節をいただく。",
+            date: "2026-02-15",
+            pages: 100,
+            price: 980
+          }
+        ]
+      }
+    ];
+
+    const categories = [
+      "すべて",
+      "クルマ・バイク",
+      "暮らし",
+      "旅",
+      "デザイン",
+      "食"
+    ];
+
+    const state = {
+      category: "すべて",
+      query: "",
+      selectedSeriesId: null,
+      product: null,
+      sort: "newest",
+      readerPages: [],
+      readerPage: 0,
+      expanded: false
+    };
+
+    const imageCache = new Map();
+
+    function escapeHtml(value) {
+      const entities = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      };
+
+      return String(value).replace(/[&<>"']/g, (character) => {
+        return entities[character];
+      });
+    }
+
+    function money(value) {
+      return "￥" + value.toLocaleString("ja-JP");
+    }
+
+    function priceMarkup(value) {
+      return `<small>￥</small>${value.toLocaleString("ja-JP")}`;
+    }
+
+    function productTitle(series, issue) {
+      return issue.title || `${series.name} ${issue.number}`;
+    }
+
+    function issueLabel(issue) {
+      return issue.label || issue.number;
+    }
+
+    function tagsMarkup(series) {
+      return (series.tags || []).map((tag) => {
+        return `<span class="tag">${escapeHtml(tag)}</span>`;
+      }).join("");
+    }
+
+    function svgImage(content) {
+      return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(content);
+    }
+
+    function placeholderImage(series, issue, page = null, index = 0) {
+      const key = `${issue.id}:${page ? index : "cover"}`;
+
+      if (imageCache.has(key)) {
+        return imageCache.get(key);
+      }
+
+      const isCar = series.id === "ignition-x";
+      const heading = page ? `SAMPLE ${String(index + 1).padStart(2, "0")}` : series.name;
+      const subtitle = page ? "本文画像を登録してください" : issueLabel(issue);
+
+      const artwork = isCar
+        ? `
+          <path
+            d="M90 530 L135 445 Q150 420 190 420 H390
+               Q430 420 453 460 L495 530 V610 H90Z"
+            fill="${series.color}"
+          />
+          <path d="M176 446 H372 L414 502 H146Z" fill="#e4edf0"/>
+          <circle cx="175" cy="602" r="43" fill="#27313c"/>
+          <circle cx="411" cy="602" r="43" fill="#27313c"/>
+          <circle cx="175" cy="602" r="22" fill="#bac1c6"/>
+          <circle cx="411" cy="602" r="22" fill="#bac1c6"/>
+          <rect x="93" y="537" width="49" height="16" fill="#fff3c3"/>
+          <rect x="444" y="537" width="49" height="16" fill="#fff3c3"/>
+        `
+        : `
+          <circle cx="335" cy="445" r="145" fill="${series.color}" opacity=".8"/>
+          <rect x="105" y="455" width="250" height="205" fill="#ca9b70"/>
+          <circle cx="350" cy="565" r="90" fill="${series.background}"/>
+          <path d="M120 670 L465 330" stroke="#a8b4a0" stroke-width="25"/>
+        `;
+
+      const image = svgImage(`
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="600"
+          height="900"
+          viewBox="0 0 600 900"
+        >
+          <rect width="600" height="900" fill="${series.background}"/>
+          <rect width="10" height="900" fill="#000" opacity=".045"/>
+          <text
+            x="35" y="55" fill="${series.color}"
+            font-family="sans-serif" font-size="13" letter-spacing="2"
+          >${escapeHtml(series.english || "DIGITAL MAGAZINE")}</text>
+          <text
+            x="32" y="153" fill="${series.color}"
+            font-family="Arial, sans-serif"
+            font-size="${heading.length > 9 ? 66 : 85}"
+            font-weight="bold" letter-spacing="-3"
+          >${escapeHtml(heading)}</text>
+          <line
+            x1="35" y1="184" x2="565" y2="184"
+            stroke="${series.color}" opacity=".4"
+          />
+          <text
+            x="35" y="230" fill="${series.color}"
+            font-family="sans-serif" font-size="22"
+          >${escapeHtml(subtitle)}</text>
+          ${artwork}
+          <text
+            x="35" y="754" fill="${series.color}"
+            font-family="sans-serif" font-size="24" font-weight="bold"
+          >${escapeHtml(issue.theme)}</text>
+          <rect x="35" y="790" width="530" height="66" rx="4" fill="#fff" opacity=".8"/>
+          <text
+            x="53" y="830" fill="#626262"
+            font-family="sans-serif" font-size="19"
+          >画像未登録 / PLACEHOLDER</text>
+          <text
+            x="35" y="882" fill="${series.color}"
+            font-family="sans-serif" font-size="11"
+          >BOOKSHELF / 600 × 900 / 2:3</text>
+        </svg>
+      `);
+
+      imageCache.set(key, image);
+      return image;
+    }
+
+    /*
+     * 外部ファイルが見つからない場合のみ仮画像に切り替えます。
+     * 実画像が配置されていれば、その画像をそのまま読み込みます。
+     */
+    function imageMarkup(src, fallback, alt, lazy = true) {
+      return `
+        <img
+          src="${escapeHtml(src || fallback)}"
+          data-fallback="${escapeHtml(fallback)}"
+          alt="${escapeHtml(alt)}"
+          width="600"
+          height="900"
+          decoding="async"
+          ${lazy ? 'loading="lazy"' : ""}
+        >
+      `;
+    }
+
+    document.addEventListener("error", (event) => {
+      const image = event.target;
+
+      if (!(image instanceof HTMLImageElement)) {
+        return;
+      }
+
+      const fallback = image.dataset.fallback;
+
+      if (!fallback) {
+        return;
+      }
+
+      delete image.dataset.fallback;
+      image.src = fallback;
+    }, true);
+
+    function coverMarkup(series, issue, lazy = true) {
+      return imageMarkup(
+        issue.cover,
+        placeholderImage(series, issue),
+        issue.coverAlt || `${productTitle(series, issue)}の表紙`,
+        lazy
+      );
+    }
+
+    function issueCard(series, issue) {
+      const href = `#issue/${encodeURIComponent(issue.id)}`;
+
+      return `
+        <article class="issue-card">
+          <a class="issue-cover" href="${href}">
+            <span class="cover-area">
+              ${coverMarkup(series, issue)}
+            </span>
+          </a>
+          <h3>
+            <a href="${href}">${escapeHtml(productTitle(series, issue))}</a>
+          </h3>
+          <p class="issue-theme">${escapeHtml(issue.theme)}</p>
+          <p class="issue-date">
+            ${escapeHtml(issue.date.replaceAll("-", "/"))}
+            ${issue.metadataProvisional ? "（発売日・登録案）" : ""}
+          </p>
+          <p class="format-label">デジタル版</p>
+          <p class="price">${priceMarkup(issue.price)}</p>
+          <span class="tax-label">税込</span>
+        </article>
+      `;
+    }
+
+    function visibleSeries() {
+      const query = state.query.trim().toLocaleLowerCase("ja-JP");
+
+      return catalog.filter((series) => {
+        const categoryMatches = (
+          state.category === "すべて" ||
+          state.category === series.category
+        );
+
+        const text = [
+          series.name,
+          series.reading || "",
+          series.category,
+          ...(series.tags || []),
+          series.description,
+          series.cardDescription || "",
+          series.keywords || "",
+          ...series.issues.map((issue) => [
+            issue.title || "",
+            issue.theme,
+            issue.number,
+            issue.mainFeature || "",
+            issue.keywords || ""
+          ].join(" "))
+        ].join(" ").toLocaleLowerCase("ja-JP");
+
+        return categoryMatches && text.includes(query);
+      });
+    }
+
+    function renderNavigation() {
+      byId("categoryNav").innerHTML = `
+        <a class="store-name" href="#">雑誌ストア</a>
+        ${categories.map((category) => `
+          <button
+            class="category-tab"
+            type="button"
+            data-category="${escapeHtml(category)}"
+            aria-pressed="${state.category === category}"
+          >${escapeHtml(category)}</button>
+        `).join("")}
+      `;
+
+      byId("categoryList").innerHTML = categories.map((category) => `
+        <li>
+          <button
+            type="button"
+            data-category="${escapeHtml(category)}"
+            aria-pressed="${state.category === category}"
+          >${escapeHtml(category)}</button>
+        </li>
+      `).join("");
+
+      byId("seriesList").innerHTML = catalog.map((series) => `
+        <li>
+          <a href="#series/${encodeURIComponent(series.id)}">
+            ${escapeHtml(series.name)}
+          </a>
+        </li>
+      `).join("");
+    }
+
+    function renderCatalog() {
+      const filtered = visibleSeries();
+
+      byId("resultCount").textContent = `${filtered.length}シリーズ`;
+      byId("emptyMessage").hidden = filtered.length > 0;
+
+      byId("seriesGrid").innerHTML = filtered.map((series) => `
+        <button
+          class="series-card"
+          type="button"
+          data-series="${series.id}"
+          aria-controls="issuePanel"
+          aria-pressed="${state.selectedSeriesId === series.id}"
+          title="${escapeHtml(series.cardDescription || series.description)}"
+        >
+          <span class="cover-area">
+            ${coverMarkup(series, series.issues[0], false)}
+          </span>
+          <span class="series-name">${escapeHtml(series.name)}</span>
+          <span class="series-description">${escapeHtml(series.description)}</span>
+          <span class="series-count">全 ${series.issues.length} 冊を見る ›</span>
+        </button>
+      `).join("");
+
+      const selected = filtered.find((series) => {
+        return series.id === state.selectedSeriesId;
+      });
+
+      byId("issuePanel").hidden = !selected;
+
+      if (selected) {
+        renderIssues(selected);
+      }
+
+      renderNavigation();
+    }
+
+    function renderIssues(series) {
+      const issues = [...series.issues].sort((a, b) => {
+        if (state.sort === "oldest") {
+          return a.date.localeCompare(b.date);
+        }
+
+        if (state.sort === "price-low") {
+          return a.price - b.price || b.date.localeCompare(a.date);
+        }
+
+        if (state.sort === "price-high") {
+          return b.price - a.price || b.date.localeCompare(a.date);
+        }
+
+        return b.date.localeCompare(a.date);
+      });
+
+      byId("panelTitle").textContent = `${series.name}｜各号・バックナンバー`;
+      byId("panelDescription").textContent = series.detailDescription
+        ? series.detailDescription.join("\n\n")
+        : series.description;
+
+      byId("panelTags").innerHTML = tagsMarkup(series);
+      byId("panelTags").hidden = !(series.tags || []).length;
+      byId("issueCount").textContent = `全 ${issues.length} 冊`;
+
+      byId("issueGrid").innerHTML = issues.map((issue) => {
+        return issueCard(series, issue);
+      }).join("");
+    }
+
+    function motionBehavior() {
+      return matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
+    }
+
+    function scrollToElement(id) {
+      byId(id).scrollIntoView({
+        behavior: motionBehavior(),
+        block: "start"
+      });
+    }
+
+    function selectSeries(id) {
+      const series = catalog.find((item) => item.id === id);
+
+      if (!series) {
+        return;
+      }
+
+      state.selectedSeriesId = id;
+      renderCatalog();
+      byId("issuePanel").open = true;
+      requestAnimationFrame(() => scrollToElement("issuePanel"));
+    }
+
+    function findIssue(id) {
+      for (const series of catalog) {
+        const issue = series.issues.find((item) => item.id === id);
+
+        if (issue) {
+          return { series, issue };
+        }
+      }
+
+      return null;
+    }
+
+    function renderProduct(product) {
+      const { series, issue } = product;
+      const seriesHref = `#series/${encodeURIComponent(series.id)}`;
+
+      const paragraphs = issue.description || [
+        series.description,
+        `今号の特集は「${issue.theme}」。新しい視点を届ける一冊です。`
+      ];
+
+      const contents = issue.contents || [];
+      const provisional = Boolean(issue.metadataProvisional);
+
+      byId("detailSeriesLink").textContent = series.name;
+      byId("detailSeriesLink").href = seriesHref;
+      byId("detailIssueLabel").textContent = issueLabel(issue);
+
+      byId("productContent").innerHTML = `
+        <div class="product-layout">
+          <div class="product-cover">
+            ${coverMarkup(series, issue, false)}
+            <p class="cover-caption">表紙画像 / デジタル版 / 横2：縦3</p>
+          </div>
+
+          <div class="product-info">
+            <h1 class="product-title">${escapeHtml(productTitle(series, issue))}</h1>
+
+            <a class="product-series-link" href="${seriesHref}">
+              ${escapeHtml(series.name)} のシリーズ一覧を見る
+            </a>
+
+            <div class="product-tags">${tagsMarkup(series)}</div>
+
+            <hr class="product-rule">
+
+            <div class="format-box">
+              <strong>デジタル版</strong>
+              ${money(issue.price)} <span class="tax-label">税込</span>
+            </div>
+
+            <div class="product-description">
+              <h2>この雑誌について</h2>
+
+              ${paragraphs.map((paragraph) => `
+                <p>${escapeHtml(paragraph)}</p>
+              `).join("")}
+
+              <p>
+                購入前に、${SAMPLE_COUNT}枚の本文画像サンプルをご覧いただけます。
+                表紙はサンプル枚数に含みません。
+              </p>
+
+              ${contents.length ? `
+                <h2>主な掲載内容</h2>
+                <ul>
+                  ${contents.map((content) => `
+                    <li>${escapeHtml(content)}</li>
+                  `).join("")}
+                </ul>
+              ` : ""}
+            </div>
+
+            ${issue.editorialNotice ? `
+              <div class="notice">${escapeHtml(issue.editorialNotice)}</div>
+            ` : ""}
+
+            <hr class="product-rule">
+
+            <dl class="product-meta">
+              <dt>シリーズ</dt>
+              <dd>${escapeHtml(series.name)}</dd>
+
+              ${series.reading ? `
+                <dt>読み方</dt>
+                <dd>${escapeHtml(series.reading)}</dd>
+              ` : ""}
+
+              <dt>巻号</dt>
+              <dd>${escapeHtml(issue.number)}</dd>
+
+              <dt>ジャンル</dt>
+              <dd>${escapeHtml(series.category)}</dd>
+
+              ${series.frequency ? `
+                <dt>刊行頻度</dt>
+                <dd>${escapeHtml(series.frequency)}</dd>
+              ` : ""}
+
+              <dt>発売日${provisional ? "（案）" : ""}</dt>
+              <dd>${escapeHtml(issue.date.replaceAll("-", "/"))}</dd>
+
+              <dt>総ページ数${provisional ? "（案）" : ""}</dt>
+              <dd>${issue.pages}ページ</dd>
+
+              <dt>形式</dt>
+              <dd>デジタル雑誌</dd>
+
+              <dt>画像比率</dt>
+              <dd>横2：縦3</dd>
+
+              <dt>試し読み</dt>
+              <dd>本文画像${SAMPLE_COUNT}枚 / 表紙を除く</dd>
+            </dl>
+
+            ${provisional ? `
+              <div class="notice">
+                発売日と総ページ数は登録案です。
+                公開前に完成データと照合して確定してください。
+              </div>
+            ` : ""}
+          </div>
+
+          <aside class="purchase-box" aria-label="購入">
+            <p class="price">${priceMarkup(issue.price)}</p>
+            <span class="tax-label">税込 / デジタル版</span>
+            <p class="availability">デジタル雑誌</p>
+
+            <button id="purchaseButton" class="button" type="button">
+              デジタル版を購入
+            </button>
+
+            <button id="sampleButton" class="button secondary" type="button">
+              サンプルを見る
+            </button>
+
+            <p class="purchase-note">
+              試し読み：本文画像${SAMPLE_COUNT}枚<br>
+              表紙は別に表示しています。<br>
+              スマートフォン・PCに対応
+            </p>
+
+            <hr class="product-rule">
+
+            <p class="purchase-note">
+              デモストアのため、決済URL未設定時は実際の注文・決済は行われません。
+            </p>
+          </aside>
+        </div>
+      `;
+
+      const related = series.issues.filter((item) => item.id !== issue.id);
+
+      byId("relatedSection").hidden = !related.length;
+      byId("relatedGrid").innerHTML = related.map((item) => {
+        return issueCard(series, item);
+      }).join("");
+
+      byId("sampleButton").addEventListener("click", openSample);
+      byId("purchaseButton").addEventListener("click", purchase);
+
+      document.title = `${productTitle(series, issue)} | BookShelf`;
+    }
+
+    function decodeRoute(value) {
+      try {
+        return decodeURIComponent(value);
+      } catch {
+        return "";
+      }
+    }
+
+    function route() {
+      document.querySelectorAll("dialog[open]").forEach((dialog) => {
+        dialog.close();
+      });
+
+      const issueMatch = location.hash.match(/^#issue\/(.+)$/);
+      const seriesMatch = location.hash.match(/^#series\/(.+)$/);
+
+      state.product = issueMatch
+        ? findIssue(decodeRoute(issueMatch[1]))
+        : null;
+
+      byId("homeView").hidden = Boolean(state.product);
+      byId("detailView").hidden = !state.product;
+
+      if (state.product) {
+        state.selectedSeriesId = state.product.series.id;
+        renderProduct(state.product);
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      document.title = "BookShelf | デジタル雑誌ストア";
+
+      if (seriesMatch) {
+        const id = decodeRoute(seriesMatch[1]);
+
+        if (catalog.some((series) => series.id === id)) {
+          state.category = "すべて";
+          state.query = "";
+          byId("searchInput").value = "";
+          selectSeries(id);
+          return;
+        }
+      }
+
+      renderCatalog();
+
+      if (location.hash === "#catalog" || location.hash === "#guide") {
+        requestAnimationFrame(() => {
+          scrollToElement(location.hash.slice(1));
+        });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function showCatalog() {
+      if (state.product) {
+        location.hash = "catalog";
+        return;
+      }
+
+      renderCatalog();
+      scrollToElement("catalog");
+    }
+
+    function showDialog(id) {
+      byId(id).showModal();
+      document.body.classList.add("modal-open");
+    }
+
+    function openSample() {
+      if (!state.product) {
+        return;
+      }
+
+      const { series, issue } = state.product;
+
+      state.readerPages = Array.from({ length: SAMPLE_COUNT }, (_, index) => {
+        const configured = issue.samples?.[index] || {};
+
+        return {
+          src: configured.src || "",
+          label: configured.label || `本文サンプル ${index + 1}`,
+          pr: Boolean(configured.pr),
+          fallback: placeholderImage(series, issue, true, index)
+        };
+      });
+
+      state.readerPage = 0;
+      state.expanded = false;
+
+      byId("readerStage").classList.remove("is-expanded");
+      byId("zoomButton").textContent = "拡大表示";
+      byId("zoomButton").setAttribute("aria-pressed", "false");
+
+      byId("sampleTitle").textContent = (
+        `${productTitle(series, issue)}｜サンプル${state.readerPages.length}枚`
+      );
+
+      byId("thumbnails").innerHTML = state.readerPages.map((page, index) => `
+        <button
+          class="thumbnail"
+          type="button"
+          data-page="${index}"
+          aria-label="${index + 1}枚目：${escapeHtml(page.label)}"
+          aria-current="${index === 0 ? "page" : "false"}"
+        >
+          ${imageMarkup(page.src, page.fallback, "", false)}
+        </button>
+      `).join("");
+
+      updateReader();
+      showDialog("sampleDialog");
+      byId("sampleDialog").scrollTop = 0;
+    }
+
+    function updateReader() {
+      const index = state.readerPage;
+      const page = state.readerPages[index];
+      const image = byId("sampleImage");
+
+      image.dataset.fallback = page.fallback;
+      image.alt = `${productTitle(state.product.series, state.product.issue)}｜${page.label}`;
+      image.src = page.src || page.fallback;
+
+      byId("pageCount").textContent = `${index + 1} / ${state.readerPages.length}`;
+
+      byId("readerCaption").textContent = (
+        `${page.pr ? "【PR・タイアップ】" : ""}${page.label}`
+      );
+
+      byId("readerCaption").classList.toggle("is-pr", page.pr);
+
+      const previous = byId("previousPage");
+      const next = byId("nextPage");
+      const focused = document.activeElement;
+      const atFirst = index === 0;
+      const atLast = index === state.readerPages.length - 1;
+
+      previous.disabled = atFirst;
+      next.disabled = atLast;
+
+      if (focused === previous && atFirst && !atLast) {
+        next.focus();
+      } else if (focused === next && atLast && !atFirst) {
+        previous.focus();
+      }
+
+      byId("thumbnails").querySelectorAll(".thumbnail").forEach((button, number) => {
+        button.setAttribute("aria-current", number === index ? "page" : "false");
+      });
+    }
+
+    function changePage(direction) {
+      const next = state.readerPage + direction;
+
+      if (next < 0 || next >= state.readerPages.length) {
+        return;
+      }
+
+      state.readerPage = next;
+      updateReader();
+
+      if (state.expanded) {
+        byId("readerStage").scrollIntoView({
+          block: "start",
+          behavior: "auto"
+        });
+      }
+    }
+
+    function purchase() {
+      if (!state.product) {
+        return;
+      }
+
+      const { series, issue } = state.product;
+
+      if (issue.checkoutUrl) {
+        try {
+          const destination = new URL(issue.checkoutUrl);
+
+          if (destination.protocol === "https:") {
+            location.assign(destination.href);
+            return;
+          }
+        } catch {
+          // 有効な決済URLがない場合はデモ案内を表示します。
+        }
+      }
+
+      byId("checkoutItem").textContent = productTitle(series, issue);
+      byId("checkoutPrice").textContent = `${money(issue.price)}（税込） / デジタル版`;
+      showDialog("checkoutDialog");
+    }
+
+    byId("searchForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      state.query = byId("searchInput").value;
+      showCatalog();
+    });
+
+    byId("searchInput").addEventListener("input", () => {
+      state.query = byId("searchInput").value;
+
+      if (!state.product) {
+        renderCatalog();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const category = event.target.closest("[data-category]");
+
+      if (category) {
+        state.category = category.dataset.category;
+        showCatalog();
+      }
+
+      const series = event.target.closest("[data-series]");
+
+      if (series) {
+        selectSeries(series.dataset.series);
+      }
+
+      const close = event.target.closest("[data-close]");
+
+      if (close) {
+        byId(close.dataset.close).close();
+      }
+    });
+
+    byId("sortSelect").addEventListener("change", (event) => {
+      state.sort = event.target.value;
+
+      const series = catalog.find((item) => {
+        return item.id === state.selectedSeriesId;
+      });
+
+      if (series) {
+        renderIssues(series);
+      }
+    });
+
+    byId("thumbnails").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-page]");
+
+      if (button) {
+        state.readerPage = Number(button.dataset.page);
+        updateReader();
+      }
+    });
+
+    byId("previousPage").addEventListener("click", () => changePage(-1));
+    byId("nextPage").addEventListener("click", () => changePage(1));
+
+    byId("zoomButton").addEventListener("click", () => {
+      state.expanded = !state.expanded;
+
+      byId("readerStage").classList.toggle("is-expanded", state.expanded);
+      byId("zoomButton").setAttribute("aria-pressed", String(state.expanded));
+      byId("zoomButton").textContent = state.expanded ? "全体表示" : "拡大表示";
+
+      byId("readerStage").scrollIntoView({
+        block: "start",
+        behavior: "auto"
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!byId("sampleDialog").open) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        changePage(event.key === "ArrowLeft" ? -1 : 1);
+      }
+    });
+
+    let touchStart = null;
+
+    byId("readerStage").addEventListener("touchstart", (event) => {
+      if (event.touches.length === 1 && !state.expanded) {
+        touchStart = {
+          x: event.touches[0].clientX,
+          y: event.touches[0].clientY
+        };
+      } else {
+        touchStart = null;
+      }
+    }, { passive: true });
+
+    byId("readerStage").addEventListener("touchmove", (event) => {
+      if (event.touches.length !== 1) {
+        touchStart = null;
+      }
+    }, { passive: true });
+
+    byId("readerStage").addEventListener("touchend", (event) => {
+      if (!touchStart || !event.changedTouches.length) {
+        return;
+      }
+
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - touchStart.x;
+      const deltaY = touch.clientY - touchStart.y;
+
+      if (
+        Math.abs(deltaX) > 50 &&
+        Math.abs(deltaX) > Math.abs(deltaY) * 1.5
+      ) {
+        changePage(deltaX < 0 ? 1 : -1);
+      }
+
+      touchStart = null;
+    }, { passive: true });
+
+    byId("readerStage").addEventListener("touchcancel", () => {
+      touchStart = null;
+    }, { passive: true });
+
+    document.querySelectorAll("dialog").forEach((dialog) => {
+      dialog.addEventListener("close", () => {
+        if (!document.querySelector("dialog[open]")) {
+          document.body.classList.remove("modal-open");
+        }
+      });
+
+      dialog.addEventListener("click", (event) => {
+        const bounds = dialog.getBoundingClientRect();
+
+        const outside = (
+          event.clientX < bounds.left ||
+          event.clientX > bounds.right ||
+          event.clientY < bounds.top ||
+          event.clientY > bounds.bottom
+        );
+
+        if (event.target === dialog && outside) {
+          dialog.close();
+        }
+      });
+    });
+
+    byId("backToTop").addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: motionBehavior()
+      });
+    });
+
+    document.querySelectorAll("[data-sample-count]").forEach((element) => {
+      element.textContent = String(SAMPLE_COUNT);
+    });
+
+    byId("heroBooks").innerHTML = catalog.slice(0, 3).map((series) => {
+      return coverMarkup(series, series.issues[0], false);
+    }).join("");
+
+    window.addEventListener("hashchange", route);
+
+    route();
+  </script>
+</body>
+</html>
       --text: #0f1111;
       --muted: #565959;
       --border: #d5d9d9;
