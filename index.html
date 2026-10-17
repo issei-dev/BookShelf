@@ -1,5 +1,5 @@
 <!-- Output: html -->
-<!-- Filename: 雑誌ストア_BookShelf -->
+<!-- Filename: 雑誌ストア_BookShelf_完全版 -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -9,6 +9,7 @@
   <title>BookShelf | デジタル雑誌ストア</title>
   <style>
     :root {
+      color-scheme: light;
       --nav: #131921;
       --nav-sub: #232f3e;
       --orange: #febd69;
@@ -17,17 +18,20 @@
       --text: #0f1111;
       --muted: #565959;
       --border: #d5d9d9;
-      --surface: #eaeded;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-padding-top: 20px;
+    }
+
     body {
       margin: 0;
-      color: var(--text);
       background: white;
+      color: var(--text);
       font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
       line-height: 1.65;
     }
@@ -43,8 +47,8 @@
     }
 
     button,
-    summary,
-    select {
+    select,
+    summary {
       cursor: pointer;
     }
 
@@ -53,6 +57,15 @@
     input,
     select {
       -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.35;
     }
 
     a {
@@ -69,21 +82,22 @@
       outline-offset: 4px;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
+    /*
+     * 全画像共通：横2：縦3
+     * HTMLのheight属性より優先して、高さを幅から自動算出します。
+     * object-fit: contain により、画像内容を切り抜かずに表示します。
+     */
     img {
       display: block;
       width: 100%;
+      height: auto;
       aspect-ratio: 2 / 3;
-      object-fit: cover;
-      background: #f0efeb;
-    }
-
-    button:disabled {
-      cursor: default;
-      opacity: 0.35;
-    }
-
-    [hidden] {
-      display: none !important;
+      object-fit: contain;
+      background: #f3f2ed;
     }
 
     .topbar {
@@ -96,7 +110,6 @@
     }
 
     .logo {
-      position: relative;
       flex-shrink: 0;
       color: white;
       font-size: 27px;
@@ -186,8 +199,8 @@
 
     .subnav {
       display: flex;
-      align-items: center;
       gap: 24px;
+      align-items: center;
       padding: 8px 30px;
       overflow-x: auto;
       background: var(--nav-sub);
@@ -202,8 +215,8 @@
 
     .store-nav {
       display: flex;
-      align-items: center;
       gap: 25px;
+      align-items: center;
       padding: 13px 32px;
       overflow-x: auto;
       border-bottom: 1px solid var(--border);
@@ -213,6 +226,7 @@
 
     .store-name {
       margin-right: 10px;
+      color: var(--text);
       font-size: 21px;
       font-weight: 800;
     }
@@ -273,18 +287,17 @@
       padding: 4px 0;
       border: 0;
       background: none;
-      color: var(--text);
       text-align: left;
       font-size: 13px;
     }
 
-    .sidebar button[aria-pressed="true"] {
-      color: #c45500;
-      font-weight: 700;
-    }
-
+    .sidebar button[aria-pressed="true"],
     .sidebar button:hover {
       color: #c45500;
+    }
+
+    .sidebar button[aria-pressed="true"] {
+      font-weight: 700;
     }
 
     .sidebar-note {
@@ -305,9 +318,8 @@
     }
 
     .hero {
-      position: relative;
       display: grid;
-      grid-template-columns: 1fr 280px;
+      grid-template-columns: minmax(0, 1fr) 280px;
       gap: 24px;
       align-items: center;
       min-height: 274px;
@@ -353,6 +365,8 @@
     .hero-books img {
       position: absolute;
       width: 120px;
+      height: auto;
+      aspect-ratio: 2 / 3;
       border-radius: 2px;
       box-shadow: 0 12px 20px #20382c33;
     }
@@ -377,7 +391,7 @@
 
     .benefits {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       margin: 14px 0 30px;
       border: 1px solid #e4e7e7;
       border-radius: 4px;
@@ -413,6 +427,7 @@
     }
 
     .section-header small {
+      flex-shrink: 0;
       color: var(--muted);
       font-size: 12px;
     }
@@ -421,9 +436,12 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 22px;
+      align-items: start;
     }
 
     .series-card {
+      display: block;
+      width: 100%;
       min-width: 0;
       padding: 0;
       border: 0;
@@ -441,6 +459,9 @@
     }
 
     .cover-area img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2 / 3;
       border-radius: 2px;
       box-shadow: 3px 5px 10px #0002;
       transition: transform 0.2s;
@@ -502,6 +523,7 @@
 
     .issue-panel summary::after {
       content: "＋";
+      flex-shrink: 0;
       color: var(--muted);
       font-size: 22px;
     }
@@ -544,6 +566,7 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 24px;
+      align-items: start;
       padding: 8px 22px 26px;
     }
 
@@ -624,10 +647,14 @@
     }
 
     .product-cover {
+      min-width: 0;
       padding: 10px 18px 20px;
     }
 
     .product-cover img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2 / 3;
       box-shadow: 4px 9px 24px #0003;
     }
 
@@ -683,7 +710,7 @@
 
     .product-meta {
       display: grid;
-      grid-template-columns: 90px 1fr;
+      grid-template-columns: 90px minmax(0, 1fr);
       gap: 9px 16px;
       font-size: 13px;
     }
@@ -789,6 +816,7 @@
 
     dialog {
       width: min(960px, calc(100% - 24px));
+      max-height: 95vh;
       max-height: 95dvh;
       padding: 0;
       overflow: auto;
@@ -830,24 +858,32 @@
       border: 1px solid var(--border);
       border-radius: 7px;
       background: white;
-      color: var(--text);
       font-size: 20px;
     }
 
     .reader-stage {
       display: flex;
+      align-items: flex-start;
       justify-content: center;
       padding: 18px;
       background: #e6e8e8;
-      touch-action: pan-y;
+      touch-action: pan-y pinch-zoom;
     }
 
+    /*
+     * 高さを直接制限せず、画面の高さから最大幅を決めます。
+     * 41.333dvh × 3 / 2 ≒ 62dvh。
+     * 高さは常に幅の1.5倍になります。
+     */
     .reader-stage img {
-      width: min(100%, 440px);
-      max-height: 62dvh;
+      width: min(100%, 440px, 41.333vh);
+      width: min(100%, 440px, 41.333dvh);
+      height: auto;
+      max-height: none;
+      aspect-ratio: 2 / 3;
       object-fit: contain;
-      background: transparent;
-      filter: drop-shadow(0 5px 8px #0002);
+      background: #fbfaf5;
+      box-shadow: 0 5px 14px #0002;
     }
 
     .reader-controls {
@@ -874,10 +910,18 @@
     }
 
     .thumbnail {
+      display: block;
+      min-width: 0;
       padding: 3px;
       border: 2px solid transparent;
       border-radius: 4px;
       background: none;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2 / 3;
     }
 
     .thumbnail[aria-current="page"] {
@@ -919,7 +963,7 @@
       }
 
       .hero {
-        grid-template-columns: 1fr 210px;
+        grid-template-columns: minmax(0, 1fr) 210px;
         padding: 28px;
       }
 
@@ -999,7 +1043,7 @@
       }
 
       .hero {
-        grid-template-columns: 1fr 110px;
+        grid-template-columns: minmax(0, 1fr) 100px;
         gap: 8px;
         min-height: 220px;
         padding: 22px;
@@ -1070,7 +1114,7 @@
       }
 
       .issue-toolbar {
-        align-items: flex-start;
+        flex-wrap: wrap;
         padding-inline: 15px;
       }
 
@@ -1112,11 +1156,29 @@
       }
 
       .reader-stage img {
-        max-height: 59dvh;
+        width: min(100%, 440px, 39.333vh);
+        width: min(100%, 440px, 39.333dvh);
+        height: auto;
+        max-height: none;
+        aspect-ratio: 2 / 3;
       }
 
       .dialog-header h2 {
         font-size: 12px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-books {
+        display: none;
+      }
+
+      .cover-area {
+        padding: 10px;
       }
     }
 
@@ -1147,8 +1209,18 @@
         >
         <button class="search-button" type="submit" aria-label="検索">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="2.5"></circle>
-            <path d="M15 15 L21 21" stroke="currentColor" stroke-width="2.5"></path>
+            <circle
+              cx="10"
+              cy="10"
+              r="6.5"
+              stroke="currentColor"
+              stroke-width="2.5"
+            ></circle>
+            <path
+              d="M15 15 L21 21"
+              stroke="currentColor"
+              stroke-width="2.5"
+            ></path>
           </svg>
         </button>
       </form>
@@ -1166,9 +1238,7 @@
       <span>すべての雑誌を画像で試し読み</span>
     </nav>
 
-    <nav id="categoryNav" class="store-nav" aria-label="ジャンル">
-      <span class="store-name">雑誌ストア</span>
-    </nav>
+    <nav id="categoryNav" class="store-nav" aria-label="ジャンル"></nav>
   </header>
 
   <main class="page-shell">
@@ -1213,8 +1283,10 @@
             </div>
 
             <div id="seriesGrid" class="series-grid"></div>
+
             <p id="emptyMessage" class="empty-message" hidden>
-              条件に一致する雑誌はありません。別のキーワードやカテゴリーをお試しください。
+              条件に一致する雑誌はありません。
+              別のキーワードやカテゴリーをお試しください。
             </p>
 
             <details id="issuePanel" class="issue-panel" hidden>
@@ -1273,7 +1345,7 @@
     </section>
   </main>
 
-  <button id="backToTop" class="back-to-top">トップへ戻る</button>
+  <button id="backToTop" class="back-to-top" type="button">トップへ戻る</button>
 
   <footer class="site-footer">
     <div class="footer-brand">bookshelf</div>
@@ -1288,7 +1360,12 @@
   <dialog id="sampleDialog" aria-labelledby="sampleTitle">
     <div class="dialog-header">
       <h2 id="sampleTitle">サンプルを見る</h2>
-      <button class="icon-button" data-close="sampleDialog" aria-label="サンプルを閉じる">×</button>
+      <button
+        class="icon-button"
+        type="button"
+        data-close="sampleDialog"
+        aria-label="サンプルを閉じる"
+      >×</button>
     </div>
 
     <div id="readerStage" class="reader-stage">
@@ -1296,18 +1373,41 @@
     </div>
 
     <div class="reader-controls">
-      <button id="previousPage" class="icon-button" aria-label="前のページ">←</button>
+      <button
+        id="previousPage"
+        class="icon-button"
+        type="button"
+        aria-label="前のページ"
+      >←</button>
       <span id="pageCount" class="reader-count" aria-live="polite"></span>
-      <button id="nextPage" class="icon-button" aria-label="次のページ">→</button>
+      <button
+        id="nextPage"
+        class="icon-button"
+        type="button"
+        aria-label="次のページ"
+      >→</button>
     </div>
 
-    <div id="thumbnails" class="reader-thumbnails" aria-label="サンプルのページ選択"></div>
+    <div
+      id="thumbnails"
+      class="reader-thumbnails"
+      aria-label="サンプルのページ選択"
+    ></div>
   </dialog>
 
-  <dialog id="checkoutDialog" class="checkout-dialog" aria-labelledby="checkoutTitle">
+  <dialog
+    id="checkoutDialog"
+    class="checkout-dialog"
+    aria-labelledby="checkoutTitle"
+  >
     <div class="dialog-header">
       <h2 id="checkoutTitle">購入について</h2>
-      <button class="icon-button" data-close="checkoutDialog" aria-label="購入案内を閉じる">×</button>
+      <button
+        class="icon-button"
+        type="button"
+        data-close="checkoutDialog"
+        aria-label="購入案内を閉じる"
+      >×</button>
     </div>
     <div class="checkout-body">
       <strong id="checkoutItem"></strong>
@@ -1316,19 +1416,21 @@
         このサイトはデモです。決済や注文は発生しません。
         本番公開時には、各号に設定した決済ページへ移動します。
       </p>
-      <button class="button" data-close="checkoutDialog">雑誌に戻る</button>
+      <button
+        class="button"
+        type="button"
+        data-close="checkoutDialog"
+      >雑誌に戻る</button>
     </div>
   </dialog>
 
   <script>
     /*
-     * Amazon系書籍ストアの一般的な構成を参考にした独自デザインです。
-     * 参照URLの実際のページ表示を再現したものではありません。
-     *
      * ■ 画像の差し替え
-     * 各号の cover に縦横比2:3の表紙画像URLを設定します。
-     * samples に縦横比2:3のサンプル画像URLを8件設定します。
-     * 未設定の場合は、動作確認用のSVG画像を生成します。
+     * cover に、横2：縦3の表紙画像URLを設定します。
+     * samples に、横2：縦3のサンプル画像URLを8件設定します。
+     * 推奨画像サイズは600×900、1200×1800などです。
+     * 未設定の場合は、同じ比率のデモSVGを表示します。
      *
      * ■ 決済
      * checkoutUrl にHTTPSの決済ページURLを設定します。
@@ -1336,7 +1438,7 @@
      *
      * 購入後の閲覧権限、コンテンツ配信、購入履歴の管理には、
      * 別途バックエンドと決済完了通知の検証が必要です。
-     * 公開サンプルのURLに有料の全ページを含めないでください。
+     * 公開するsamplesには有料の全ページを含めないでください。
      */
 
     const catalog = [
@@ -1533,7 +1635,11 @@
       }
     ];
 
-    const categories = ["すべて", ...new Set(catalog.map((series) => series.category))];
+    const categories = [
+      "すべて",
+      ...new Set(catalog.map((series) => series.category))
+    ];
+
     const byId = (id) => document.getElementById(id);
 
     const state = {
@@ -1546,16 +1652,18 @@
       readerPage: 0
     };
 
-    function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, (character) => {
-        const entities = {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        };
+    const imageCache = new Map();
 
+    function escapeHtml(value) {
+      const entities = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      };
+
+      return String(value).replace(/[&<>"']/g, (character) => {
         return entities[character];
       });
     }
@@ -1577,42 +1685,93 @@
 
       if (series.id === "ordinary") {
         return `
-          <rect x="110" y="270" width="380" height="390" rx="180" fill="${series.color}" opacity=".13"/>
-          <path d="M145 535 H455 M180 535 L158 710 M420 535 L442 710" fill="none" stroke="${series.color}" stroke-width="17"/>
-          <path d="M256 525 L239 415 Q300 389 361 415 L344 525Z" fill="#b57e5e"/>
-          <path d="M300 414 Q${205 + shift} 292 210 350 Q258 348 300 414Z" fill="${series.color}"/>
-          <path d="M300 414 Q400 ${272 + shift} 400 339 Q363 386 300 414Z" fill="${series.color}"/>
-          <path d="M300 414 V305" stroke="${series.color}" stroke-width="7"/>
+          <rect
+            x="110" y="270" width="380" height="390" rx="180"
+            fill="${series.color}" opacity=".13"
+          />
+          <path
+            d="M145 535 H455 M180 535 L158 710 M420 535 L442 710"
+            fill="none" stroke="${series.color}" stroke-width="17"
+          />
+          <path
+            d="M256 525 L239 415 Q300 389 361 415 L344 525Z"
+            fill="#b57e5e"
+          />
+          <path
+            d="M300 414 Q${205 + shift} 292 210 350 Q258 348 300 414Z"
+            fill="${series.color}"
+          />
+          <path
+            d="M300 414 Q400 ${272 + shift} 400 339 Q363 386 300 414Z"
+            fill="${series.color}"
+          />
+          <path
+            d="M300 414 V305"
+            stroke="${series.color}" stroke-width="7"
+          />
         `;
       }
 
       if (series.id === "roam") {
         return `
           <circle cx="440" cy="340" r="70" fill="#efb567"/>
-          <path d="M0 660 L180 ${345 + shift} L380 660Z" fill="${series.color}" opacity=".8"/>
+          <path
+            d="M0 660 L180 ${345 + shift} L380 660Z"
+            fill="${series.color}" opacity=".8"
+          />
           <path d="M175 680 L425 385 L660 680Z" fill="#768779"/>
-          <path d="M0 650 Q150 590 300 655 T600 635 V740 H0Z" fill="#b7c1b7"/>
-          <path d="M245 740 Q300 663 390 641" fill="none" stroke="#fff0d8" stroke-width="25"/>
+          <path
+            d="M0 650 Q150 590 300 655 T600 635 V740 H0Z"
+            fill="#b7c1b7"
+          />
+          <path
+            d="M245 740 Q300 663 390 641"
+            fill="none" stroke="#fff0d8" stroke-width="25"
+          />
         `;
       }
 
       if (series.id === "form") {
         return `
-          <circle cx="${300 + shift}" cy="440" r="155" fill="${series.color}"/>
+          <circle
+            cx="${300 + shift}" cy="440" r="155"
+            fill="${series.color}"
+          />
           <rect x="90" y="440" width="260" height="240" fill="#d77858"/>
           <circle cx="355" cy="560" r="100" fill="${series.background}"/>
-          <path d="M100 685 L490 315" stroke="#b8b973" stroke-width="35"/>
+          <path
+            d="M100 685 L490 315"
+            stroke="#b8b973" stroke-width="35"
+          />
         `;
       }
 
       return `
-        <circle cx="300" cy="490" r="198" fill="${series.color}" opacity=".15"/>
+        <circle
+          cx="300" cy="490" r="198"
+          fill="${series.color}" opacity=".15"
+        />
         <circle cx="300" cy="490" r="160" fill="#fcf9ef"/>
-        <circle cx="300" cy="490" r="130" fill="none" stroke="#dbd2bb" stroke-width="3"/>
-        <ellipse cx="300" cy="495" rx="100" ry="66" fill="#bb7946" transform="rotate(-25 300 495)"/>
-        <path d="M251 471 L315 535 M277 448 L342 510" stroke="#efd5a2" stroke-width="8"/>
-        <path d="M340 430 Q386 351 408 402 Q391 449 340 430Z" fill="#74864d"/>
-        <path d="M80 355 V640 M61 355 V420 M99 355 V420" stroke="${series.color}" stroke-width="7"/>
+        <circle
+          cx="300" cy="490" r="130"
+          fill="none" stroke="#dbd2bb" stroke-width="3"
+        />
+        <ellipse
+          cx="300" cy="495" rx="100" ry="66"
+          fill="#bb7946" transform="rotate(-25 300 495)"
+        />
+        <path
+          d="M251 471 L315 535 M277 448 L342 510"
+          stroke="#efd5a2" stroke-width="8"
+        />
+        <path
+          d="M340 430 Q386 351 408 402 Q391 449 340 430Z"
+          fill="#74864d"
+        />
+        <path
+          d="M80 355 V640 M61 355 V420 M99 355 V420"
+          stroke="${series.color}" stroke-width="7"
+        />
       `;
     }
 
@@ -1621,20 +1780,55 @@
         return issue.cover;
       }
 
-      return svgImage(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900">
+      const key = `cover:${issue.id}`;
+
+      if (imageCache.has(key)) {
+        return imageCache.get(key);
+      }
+
+      const image = svgImage(`
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="600" height="900" viewBox="0 0 600 900"
+        >
           <rect width="600" height="900" fill="${series.background}"/>
           <rect width="10" height="900" fill="#000" opacity=".045"/>
-          <text x="38" y="52" fill="${series.color}" font-family="sans-serif" font-size="13" letter-spacing="4">${escapeHtml(series.english)}</text>
-          <text x="32" y="166" fill="${series.color}" font-family="Georgia, serif" font-size="${series.name.length > 7 ? 95 : 118}" font-weight="bold" letter-spacing="-5">${escapeHtml(series.name)}</text>
-          <line x1="40" y1="197" x2="560" y2="197" stroke="${series.color}" opacity=".4"/>
-          <text x="40" y="232" fill="${series.color}" font-family="sans-serif" font-size="18">${escapeHtml(issue.number)}</text>
+          <text
+            x="38" y="52" fill="${series.color}"
+            font-family="sans-serif" font-size="13" letter-spacing="4"
+          >${escapeHtml(series.english)}</text>
+          <text
+            x="32" y="166" fill="${series.color}"
+            font-family="Georgia, serif"
+            font-size="${series.name.length > 7 ? 95 : 118}"
+            font-weight="bold" letter-spacing="-5"
+          >${escapeHtml(series.name)}</text>
+          <line
+            x1="40" y1="197" x2="560" y2="197"
+            stroke="${series.color}" opacity=".4"
+          />
+          <text
+            x="40" y="232" fill="${series.color}"
+            font-family="sans-serif" font-size="18"
+          >${escapeHtml(issue.number)}</text>
           ${illustration(series, series.issues.indexOf(issue))}
-          <text x="38" y="795" fill="${series.color}" font-family="sans-serif" font-size="29" font-weight="bold">${escapeHtml(issue.theme)}</text>
-          <text x="40" y="845" fill="${series.color}" font-family="sans-serif" font-size="12" letter-spacing="2">A NEW PERSPECTIVE ON EVERYDAY LIFE</text>
-          <text x="40" y="878" fill="${series.color}" font-family="sans-serif" font-size="10">BOOKSHELF / DEMO COVER</text>
+          <text
+            x="38" y="795" fill="${series.color}"
+            font-family="sans-serif" font-size="29" font-weight="bold"
+          >${escapeHtml(issue.theme)}</text>
+          <text
+            x="40" y="845" fill="${series.color}"
+            font-family="sans-serif" font-size="12" letter-spacing="2"
+          >A NEW PERSPECTIVE ON EVERYDAY LIFE</text>
+          <text
+            x="40" y="878" fill="${series.color}"
+            font-family="sans-serif" font-size="10"
+          >BOOKSHELF / DEMO COVER</text>
         </svg>
       `);
+
+      imageCache.set(key, image);
+      return image;
     }
 
     function sampleImages(series, issue) {
@@ -1650,49 +1844,87 @@
       ];
 
       return Array.from({ length: 8 }, (_, index) => {
-        if (issue.samples[index]) {
+        if (issue.samples?.[index]) {
           return issue.samples[index];
         }
 
+        const key = `sample:${issue.id}:${index}`;
+
+        if (imageCache.has(key)) {
+          return imageCache.get(key);
+        }
+
         const lines = Array.from({ length: 10 }, (_, line) => `
-          <rect x="45" y="${680 + line * 12}" width="${line % 4 === 0 ? 355 : 505}" height="3" fill="${series.color}" opacity=".18"/>
+          <rect
+            x="45" y="${680 + line * 12}"
+            width="${line % 4 === 0 ? 355 : 505}" height="3"
+            fill="${series.color}" opacity=".18"
+          />
         `).join("");
 
-        return svgImage(`
-          <svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900">
+        const image = svgImage(`
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="600" height="900" viewBox="0 0 600 900"
+          >
             <rect width="600" height="900" fill="#fbfaf5"/>
-            <text x="45" y="48" fill="${series.color}" font-family="sans-serif" font-size="13" letter-spacing="2">${escapeHtml(series.name)} / ${escapeHtml(issue.number)}</text>
-            <line x1="45" y1="69" x2="555" y2="69" stroke="${series.color}" opacity=".35"/>
-            <text x="45" y="121" fill="${series.color}" font-family="sans-serif" font-size="12">SAMPLE PAGE ${String(index + 1).padStart(2, "0")}</text>
-            <text x="45" y="177" fill="${series.color}" font-family="sans-serif" font-size="29" font-weight="bold">${escapeHtml(headings[index])}</text>
-            <rect x="45" y="220" width="510" height="410" fill="${series.background}"/>
+            <text
+              x="45" y="48" fill="${series.color}"
+              font-family="sans-serif" font-size="13" letter-spacing="2"
+            >${escapeHtml(series.name)} / ${escapeHtml(issue.number)}</text>
+            <line
+              x1="45" y1="69" x2="555" y2="69"
+              stroke="${series.color}" opacity=".35"
+            />
+            <text
+              x="45" y="121" fill="${series.color}"
+              font-family="sans-serif" font-size="12"
+            >SAMPLE PAGE ${String(index + 1).padStart(2, "0")}</text>
+            <text
+              x="45" y="177" fill="${series.color}"
+              font-family="sans-serif" font-size="29" font-weight="bold"
+            >${escapeHtml(headings[index])}</text>
+            <rect
+              x="45" y="220" width="510" height="410"
+              fill="${series.background}"
+            />
             <g transform="translate(84 33) scale(.72)">
               ${illustration(series, index)}
             </g>
             ${lines}
-            <text x="45" y="836" fill="${series.color}" font-family="sans-serif" font-size="12">画像差し替え用のデモサンプル</text>
-            <text x="553" y="871" text-anchor="end" fill="${series.color}" font-family="sans-serif" font-size="13">${index + 1}</text>
+            <text
+              x="45" y="836" fill="${series.color}"
+              font-family="sans-serif" font-size="12"
+            >画像差し替え用のデモサンプル</text>
+            <text
+              x="553" y="871" text-anchor="end" fill="${series.color}"
+              font-family="sans-serif" font-size="13"
+            >${index + 1}</text>
           </svg>
         `);
+
+        imageCache.set(key, image);
+        return image;
       });
     }
 
     function issueCard(series, issue) {
+      const href = `#issue/${encodeURIComponent(issue.id)}`;
+
       return `
         <article class="issue-card">
-          <a class="issue-cover" href="#issue/${encodeURIComponent(issue.id)}">
+          <a class="issue-cover" href="${href}">
             <div class="cover-area">
               <img
                 src="${escapeHtml(coverImage(series, issue))}"
                 alt="${escapeHtml(series.name + " " + issue.number + " " + issue.theme)}"
-                width="600"
-                height="900"
-                loading="lazy"
+                width="600" height="900"
+                loading="lazy" decoding="async"
               >
             </div>
           </a>
           <h3>
-            <a href="#issue/${encodeURIComponent(issue.id)}">
+            <a href="${href}">
               ${escapeHtml(series.name)} ${escapeHtml(issue.number)}
             </a>
           </h3>
@@ -1709,7 +1941,11 @@
       const query = state.query.trim().toLocaleLowerCase("ja-JP");
 
       return catalog.filter((series) => {
-        const categoryMatches = state.category === "すべて" || state.category === series.category;
+        const categoryMatches = (
+          state.category === "すべて" ||
+          state.category === series.category
+        );
+
         const text = [
           series.name,
           series.category,
@@ -1725,17 +1961,22 @@
     function renderNavigation() {
       const buttons = categories.map((category) => `
         <button
+          type="button"
           class="category-tab"
           data-category="${escapeHtml(category)}"
           aria-pressed="${state.category === category}"
         >${escapeHtml(category)}</button>
       `).join("");
 
-      byId("categoryNav").innerHTML = `<span class="store-name">雑誌ストア</span>${buttons}`;
+      byId("categoryNav").innerHTML = `
+        <a class="store-name" href="#">雑誌ストア</a>
+        ${buttons}
+      `;
 
       byId("categoryList").innerHTML = categories.map((category) => `
         <li>
           <button
+            type="button"
             data-category="${escapeHtml(category)}"
             aria-pressed="${state.category === category}"
           >${escapeHtml(category)}</button>
@@ -1744,7 +1985,9 @@
 
       byId("seriesList").innerHTML = catalog.map((series) => `
         <li>
-          <a href="#series/${encodeURIComponent(series.id)}">${escapeHtml(series.name)}</a>
+          <a href="#series/${encodeURIComponent(series.id)}">
+            ${escapeHtml(series.name)}
+          </a>
         </li>
       `).join("");
     }
@@ -1757,26 +2000,30 @@
 
       byId("seriesGrid").innerHTML = filtered.map((series) => `
         <button
+          type="button"
           class="series-card"
           data-series="${series.id}"
           aria-controls="issuePanel"
           aria-pressed="${state.selectedSeriesId === series.id}"
         >
-          <div class="cover-area">
+          <span class="cover-area" style="display: block;">
             <img
               src="${escapeHtml(coverImage(series, series.issues[0]))}"
               alt="${escapeHtml(series.name)} 最新号の表紙"
-              width="600"
-              height="900"
+              width="600" height="900"
+              decoding="async"
             >
-          </div>
+          </span>
           <span class="series-name">${escapeHtml(series.name)}</span>
           <span class="series-description">${escapeHtml(series.description)}</span>
           <span class="series-count">全${series.issues.length}冊を見る ›</span>
         </button>
       `).join("");
 
-      const selected = filtered.find((series) => series.id === state.selectedSeriesId);
+      const selected = filtered.find((series) => {
+        return series.id === state.selectedSeriesId;
+      });
+
       byId("issuePanel").hidden = !selected;
 
       if (selected) {
@@ -1806,12 +2053,20 @@
       byId("panelTitle").textContent = `${series.name}｜各号・バックナンバー`;
       byId("panelDescription").textContent = series.description;
       byId("issueCount").textContent = `全${issues.length}冊`;
-      byId("issueGrid").innerHTML = issues.map((issue) => issueCard(series, issue)).join("");
+      byId("issueGrid").innerHTML = issues.map((issue) => {
+        return issueCard(series, issue);
+      }).join("");
+    }
+
+    function motionBehavior() {
+      return matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
     }
 
     function scrollToElement(id) {
       byId(id).scrollIntoView({
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        behavior: motionBehavior(),
         block: "start"
       });
     }
@@ -1844,9 +2099,10 @@
 
     function renderProduct(product) {
       const { series, issue } = product;
+      const seriesHref = `#series/${encodeURIComponent(series.id)}`;
 
       byId("detailSeriesLink").textContent = series.name;
-      byId("detailSeriesLink").href = `#series/${encodeURIComponent(series.id)}`;
+      byId("detailSeriesLink").href = seriesHref;
       byId("detailIssueLabel").textContent = issue.number;
 
       byId("productContent").innerHTML = `
@@ -1855,8 +2111,7 @@
             <img
               src="${escapeHtml(coverImage(series, issue))}"
               alt="${escapeHtml(series.name + " " + issue.number + "の表紙")}"
-              width="600"
-              height="900"
+              width="600" height="900"
             >
             <p class="cover-caption">表紙画像 / デジタル版</p>
           </div>
@@ -1867,7 +2122,7 @@
               ${escapeHtml(issue.theme)}
             </h1>
 
-            <a class="product-series-link" href="#series/${encodeURIComponent(series.id)}">
+            <a class="product-series-link" href="${seriesHref}">
               ${escapeHtml(series.name)}のシリーズ一覧を見る
             </a>
 
@@ -1887,7 +2142,7 @@
               </p>
               <p>
                 購入前に、8ページのサンプルを画像でご覧いただけます。
-                表紙・本文画像はすべて縦横比2:3で表示します。
+                表紙・本文画像はすべて横2：縦3で表示します。
               </p>
             </div>
 
@@ -1904,6 +2159,8 @@
               <dd>${issue.pages}ページ</dd>
               <dt>形式</dt>
               <dd>デジタル雑誌</dd>
+              <dt>画像比率</dt>
+              <dd>横2：縦3</dd>
               <dt>試し読み</dt>
               <dd>8ページ</dd>
             </dl>
@@ -1913,8 +2170,12 @@
             <p class="price">${priceMarkup(issue.price)}</p>
             <span class="tax-label">税込 / デジタル版</span>
             <p class="availability">デジタル版を購入</p>
-            <button id="purchaseButton" class="button">購入する</button>
-            <button id="sampleButton" class="button secondary">サンプルを見る</button>
+            <button id="purchaseButton" class="button" type="button">
+              購入する
+            </button>
+            <button id="sampleButton" class="button secondary" type="button">
+              サンプルを見る
+            </button>
             <p class="purchase-note">
               サンプル：8ページ<br>
               スマートフォン・PCに対応
@@ -1947,12 +2208,16 @@
     }
 
     function route() {
-      document.querySelectorAll("dialog[open]").forEach((dialog) => dialog.close());
+      document.querySelectorAll("dialog[open]").forEach((dialog) => {
+        dialog.close();
+      });
 
       const issueMatch = location.hash.match(/^#issue\/(.+)$/);
       const seriesMatch = location.hash.match(/^#series\/(.+)$/);
 
-      state.product = issueMatch ? findIssue(decodeRoute(issueMatch[1])) : null;
+      state.product = issueMatch
+        ? findIssue(decodeRoute(issueMatch[1]))
+        : null;
 
       byId("homeView").hidden = Boolean(state.product);
       byId("detailView").hidden = !state.product;
@@ -1982,7 +2247,9 @@
       renderCatalog();
 
       if (location.hash === "#catalog" || location.hash === "#guide") {
-        requestAnimationFrame(() => scrollToElement(location.hash.slice(1)));
+        requestAnimationFrame(() => {
+          scrollToElement(location.hash.slice(1));
+        });
       } else {
         window.scrollTo(0, 0);
       }
@@ -2007,28 +2274,56 @@
 
       byId("thumbnails").innerHTML = state.readerImages.map((source, index) => `
         <button
+          type="button"
           class="thumbnail"
           data-page="${index}"
           aria-label="${index + 1}ページ目を表示"
           aria-current="${index === 0 ? "page" : "false"}"
         >
-          <img src="${escapeHtml(source)}" alt="" width="600" height="900">
+          <img
+            src="${escapeHtml(source)}"
+            alt=""
+            width="600" height="900"
+          >
         </button>
       `).join("");
 
       updateReader();
       showDialog("sampleDialog");
+      byId("sampleDialog").scrollTop = 0;
     }
 
     function updateReader() {
       const page = state.readerPage;
 
       byId("sampleImage").src = state.readerImages[page];
-      byId("sampleImage").alt = `${state.product.series.name} サンプル ${page + 1}ページ目`;
-      byId("pageCount").textContent = `${page + 1} / ${state.readerImages.length}`;
+      byId("sampleImage").alt = (
+        `${state.product.series.name} サンプル ${page + 1}ページ目`
+      );
 
-      byId("previousPage").disabled = page === 0;
-      byId("nextPage").disabled = page === state.readerImages.length - 1;
+      byId("pageCount").textContent = (
+        `${page + 1} / ${state.readerImages.length}`
+      );
+
+      /*
+       * フォーカス中のページ送りボタンを突然disabledにすると
+       * キーボードのフォーカスが失われるブラウザーがあるため、
+       * 境界到達時は有効な方のボタンへフォーカスを移します。
+       */
+      const previous = byId("previousPage");
+      const next = byId("nextPage");
+      const atFirst = page === 0;
+      const atLast = page === state.readerImages.length - 1;
+      const focused = document.activeElement;
+
+      previous.disabled = atFirst;
+      next.disabled = atLast;
+
+      if (focused === previous && atFirst && !atLast) {
+        next.focus();
+      } else if (focused === next && atLast && !atFirst) {
+        previous.focus();
+      }
 
       byId("thumbnails").querySelectorAll(".thumbnail").forEach((button, index) => {
         button.setAttribute("aria-current", index === page ? "page" : "false");
@@ -2067,27 +2362,27 @@
       }
 
       byId("checkoutItem").textContent = `${series.name} ${issue.number}`;
-      byId("checkoutPrice").textContent = `${money(issue.price)}（税込） / デジタル版`;
+      byId("checkoutPrice").textContent = (
+        `${money(issue.price)}（税込） / デジタル版`
+      );
+
       showDialog("checkoutDialog");
     }
 
-    function applySearch() {
-      state.query = byId("searchInput").value;
-
+    function showCatalog() {
       if (state.product) {
         location.hash = "catalog";
-      } else {
-        renderCatalog();
+        return;
       }
+
+      renderCatalog();
+      scrollToElement("catalog");
     }
 
     byId("searchForm").addEventListener("submit", (event) => {
       event.preventDefault();
-      applySearch();
-
-      if (!state.product) {
-        scrollToElement("catalog");
-      }
+      state.query = byId("searchInput").value;
+      showCatalog();
     });
 
     byId("searchInput").addEventListener("input", () => {
@@ -2099,17 +2394,15 @@
     });
 
     document.addEventListener("click", (event) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
       const category = event.target.closest("[data-category]");
 
       if (category) {
         state.category = category.dataset.category;
-
-        if (state.product) {
-          location.hash = "catalog";
-        } else {
-          renderCatalog();
-          scrollToElement("catalog");
-        }
+        showCatalog();
       }
 
       const series = event.target.closest("[data-series]");
@@ -2127,7 +2420,10 @@
 
     byId("sortSelect").addEventListener("change", (event) => {
       state.sort = event.target.value;
-      const series = catalog.find((item) => item.id === state.selectedSeriesId);
+
+      const series = catalog.find((item) => {
+        return item.id === state.selectedSeriesId;
+      });
 
       if (series) {
         renderIssues(series);
@@ -2170,8 +2466,14 @@
       }
     }, { passive: true });
 
+    byId("readerStage").addEventListener("touchmove", (event) => {
+      if (event.touches.length !== 1) {
+        touchStart = null;
+      }
+    }, { passive: true });
+
     byId("readerStage").addEventListener("touchend", (event) => {
-      if (!touchStart) {
+      if (!touchStart || !event.changedTouches.length) {
         return;
       }
 
@@ -2179,7 +2481,10 @@
       const deltaX = touch.clientX - touchStart.x;
       const deltaY = touch.clientY - touchStart.y;
 
-      if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+      if (
+        Math.abs(deltaX) > 50 &&
+        Math.abs(deltaX) > Math.abs(deltaY) * 1.5
+      ) {
         changePage(deltaX < 0 ? 1 : -1);
       }
 
@@ -2199,6 +2504,7 @@
 
       dialog.addEventListener("click", (event) => {
         const bounds = dialog.getBoundingClientRect();
+
         const outside = (
           event.clientX < bounds.left ||
           event.clientX > bounds.right ||
@@ -2215,7 +2521,7 @@
     byId("backToTop").addEventListener("click", () => {
       window.scrollTo({
         top: 0,
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+        behavior: motionBehavior()
       });
     });
 
@@ -2223,8 +2529,7 @@
       <img
         src="${escapeHtml(coverImage(series, series.issues[0]))}"
         alt=""
-        width="600"
-        height="900"
+        width="600" height="900"
       >
     `).join("");
 
