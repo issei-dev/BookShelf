@@ -1473,12 +1473,12 @@
      * IGNITION Xの画像はindex.htmlと同じフォルダに置きます。
      *
      * 5月号
-     * ignition-x-2026-05-cover.webp
-     * ignition-x-2026-05-sample-01.webp ～ sample-10.webp
+     * ignition-x-2026-05-cover.PNG
+     * ignition-x-2026-05-sample-01.PNG ～ sample-10.PNG
      *
      * 4月号
-     * ignition-x-2026-04-cover.webp
-     * ignition-x-2026-04-sample-01.webp ～ sample-10.webp
+     * ignition-x-2026-04-cover.PNG
+     * ignition-x-2026-04-sample-01.PNG ～ sample-10.PNG
      *
      * 合計：表紙2枚＋本文サンプル20枚＝22枚。
      * 表紙バリエーションを別商品として重複登録していません。
@@ -1492,7 +1492,7 @@
      * 確定後にmetadataProvisionalをfalseに変更してください。
      *
      * 画像は横2：縦3。2048×3072pxなどを推奨。
-     * WebP、sRGBで用意し、配信用は幅1200〜1600px程度を目安に調整。
+     * PNG、sRGBで用意し、配信用は幅1200〜1600px程度を目安に調整。
      * ファイル未配置時は、画像未登録を示す仮画像を表示します。
      *
      * checkoutUrlにHTTPS決済ページURLを設定できます。
@@ -1510,7 +1510,7 @@
         const order = String(index + 1).padStart(2, "0");
 
         return {
-          src: `${issueId}-sample-${order}.webp`,
+          src: `${issueId}-sample-${order}.PNG`,
           label: definition.label || `サンプル ${index + 1}`,
           pr: Boolean(definition.pr)
         };
@@ -1552,7 +1552,7 @@
             pages: 80,
             metadataProvisional: true,
             price: 980,
-            cover: "ignition-x-2026-05-cover.webp",
+            cover: "ignition-x-2026-05-cover.PNG",
             coverAlt:
               "IGNITION X 2026年5月号の表紙。特集はフルサイズ SUV の日本導入予想。",
             description: [
@@ -1606,7 +1606,7 @@
             pages: 80,
             metadataProvisional: true,
             price: 980,
-            cover: "ignition-x-2026-04-cover.webp",
+            cover: "ignition-x-2026-04-cover.PNG",
             coverAlt:
               "IGNITION X 2026年4月号創刊号の表紙。特集はハチロクのモデルチェンジ予想。",
             description: [
